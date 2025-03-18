@@ -25,16 +25,16 @@ server.tool(
   "Get energy consumption",
   {
     day: emptyStringToNull(
-      z.string().length(2).optional().describe("Specify the day")
+      z.string().length(2).optional().describe("Specify the day (optional)")
     ),
     month: emptyStringToNull(
-      z.string().length(2).optional().describe("Specify the month")
+      z.string().length(2).optional().describe("Specify the month (optional)")
     ),
     year: emptyStringToNull(
-      z.string().length(4).optional().describe("Specify the year")
+      z.string().length(4).optional().describe("Specify the year (optional)")
     ),
     time: emptyStringToNull(
-      z.string().length(5).optional().describe("Specify the time")
+      z.string().length(5).optional().describe("Specify the time (optional)")
     ),
     sortTotal: emptyStringToNull(
       z
@@ -43,10 +43,26 @@ server.tool(
           message: "Sort direction must be either 'DESC' or 'ASC'",
         })
         .optional()
-        .describe("Specify the sort direction (DESC or ASC)")
+        .describe("Specify the sort direction (DESC or ASC) (optional)")
     ),
   },
   async ({ day, month, year, time, sortTotal }) => {
+    /**
+     * Handles the "get-energy-consumption" tool request.
+     *
+     * @param {Object} params - The parameters for the request.
+     * @param {string | null} params.day - The day to filter the energy consumption data (optional).
+     * @param {string | null} params.month - The month to filter the energy consumption data (optional).
+     * @param {string | null} params.year - The year to filter the energy consumption data (optional).
+     * @param {string | null} params.time - The time to filter the energy consumption data (optional).
+     * @param {string | null} params.sortTotal - The sort direction for the total energy consumption (optional, must be either 'DESC' or 'ASC').
+     *
+     * @returns {Promise<Object>} The response object containing the formatted energy consumption data or an error message.
+     *
+     * Constructs the search URL with the provided parameters, makes a request to retrieve the energy consumption data,
+     * formats the data, and returns it. If the request fails, returns an error message.
+     */
+
     const searchUrl = new URL(getEnergyConsumptionUrl);
     if (day) searchUrl.searchParams.append("refine", `dia:${day}`);
     if (month) searchUrl.searchParams.append("refine", `mes:${month}`);
