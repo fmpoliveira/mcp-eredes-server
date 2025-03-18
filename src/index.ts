@@ -8,7 +8,7 @@ import { EnergyConsumptionResponse } from "./interfaces/get-energy-consumption.i
 import { request } from "./helpers/request.js";
 import { formatEnergyConsumption } from "./helpers/format-energy-consumption.js";
 import { z } from "zod";
-import { emptyStringToNull } from "./helpers/empty-string-to-null.js";
+import { emptyStringToUndefined } from "./helpers/empty-string-to-undefined.js";
 
 // https://e-redes.opendatasoft.com/api/explore/v2.1/catalog/datasets
 // consumo-total-nacional/records?limit=20
@@ -24,19 +24,19 @@ server.tool(
   "get-energy-consumption",
   "Get energy consumption",
   {
-    day: emptyStringToNull(
+    day: emptyStringToUndefined(
       z.string().length(2).optional().describe("Specify the day (optional)")
     ),
-    month: emptyStringToNull(
+    month: emptyStringToUndefined(
       z.string().length(2).optional().describe("Specify the month (optional)")
     ),
-    year: emptyStringToNull(
+    year: emptyStringToUndefined(
       z.string().length(4).optional().describe("Specify the year (optional)")
     ),
-    time: emptyStringToNull(
+    time: emptyStringToUndefined(
       z.string().length(5).optional().describe("Specify the time (optional)")
     ),
-    sortTotal: emptyStringToNull(
+    sortTotal: emptyStringToUndefined(
       z
         .string()
         .refine((val) => val === "DESC" || val === "ASC", {
