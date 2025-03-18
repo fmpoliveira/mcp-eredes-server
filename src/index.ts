@@ -36,13 +36,24 @@ server.tool(
     time: emptyStringToNull(
       z.string().length(5).optional().describe("Specify the time")
     ),
+    sortTotal: emptyStringToNull(
+      z
+        .string()
+        .refine((val) => val === "DESC" || val === "ASC", {
+          message: "Sort direction must be either 'DESC' or 'ASC'",
+        })
+        .optional()
+        .describe("Specify the sort direction (DESC or ASC)")
+    ),
   },
-  async ({ day, month, year, time }) => {
+  async ({ day, month, year, time, sortTotal }) => {
     const searchUrl = new URL(getEnergyConsumptionUrl);
     if (day) searchUrl.searchParams.append("refine", `dia:${day}`);
     if (month) searchUrl.searchParams.append("refine", `mes:${month}`);
     if (year) searchUrl.searchParams.append("refine", `datahora:${year}`);
     if (time) searchUrl.searchParams.append("refine", `time:${time}`);
+    if (sortTotal)
+      searchUrl.searchParams.append("order_by", `total ${sortTotal}`);
 
     const data = await request<EnergyConsumptionResponse>(searchUrl.toString());
 
@@ -57,9 +68,11 @@ server.tool(
       };
     }
 
-    const energyConsumptionResponse = data.results
-      .map(formatEnergyConsumption)
-      .toString();
+    const energyConsumptionResponse = JSON.stringify(
+      data.results.map(formatEnergyConsumption),
+      null,
+      2
+    );
 
     return {
       content: [

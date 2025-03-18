@@ -13,6 +13,6 @@ export function formatEnergyConsumption(data: EnergyConsumption): string {
     `Alta Tensão: ${data.at.toFixed(2)}`,
     `Muito Alta Tensão: ${data.mat.toFixed(2)}`,
     `Total: ${data.total.toFixed(2)}`,
-    "",
+    "\n",
   ].join("\n");
 }
