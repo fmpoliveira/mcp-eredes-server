@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { emptyStringToUndefined } from "../helpers/empty-string-to-undefined.js";
 
-export const getEnergyConsumptionSchema = z
+export const getNationalProducedEnergySchema = z
   .object({
     day: emptyStringToUndefined(
       z.string().length(2).optional().describe("Specify the day (optional)")
@@ -30,6 +30,6 @@ export const getEnergyConsumptionSchema = z
   })
   .optional();
 
-export type GetEnergyConsumptionParams = z.infer<
-  typeof getEnergyConsumptionSchema
+export type GetNationalProducedEnergy = z.infer<
+  typeof getNationalProducedEnergySchema
 >;
