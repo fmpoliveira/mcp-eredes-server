@@ -17,7 +17,6 @@ app.get("/:toolName", async (req: Request, res: Response): Promise<any> => {
 
   try {
     const controller = new AbortController();
-    // import express from "express";
     const response = await handler(
       { params: req.body },
       { signal: controller.signal }
