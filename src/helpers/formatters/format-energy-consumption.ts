@@ -2,7 +2,7 @@ import { EnergyConsumption } from "../../interfaces/get-energy-consumption.inter
 
 export function formatEnergyConsumption(data: EnergyConsumption): string {
   return [
-    `Date: ${data.datahora}`,
+    `Date/Time: ${data.datahora}`,
     `Day: ${data.dia}`,
     `Month: ${data.mes}`,
     `Year: ${data.ano}`,
